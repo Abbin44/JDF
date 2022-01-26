@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace JDF
@@ -11,9 +12,15 @@ namespace JDF
     {
         static string filePath = string.Empty;
 
+        static void Main()
+        {
+            filePath = @"F:\Programmering\C#\JDF\JDF\example.jdf";
+            ReadOptions();
+        }
         public Program(string path)
         {
             filePath = path;
+            filePath = @"F:\Programmering\C#\JDF\JDF\example.jdf";
         }
 
         /// <summary>
@@ -65,21 +72,20 @@ namespace JDF
         /// <summary>
         /// Reads all the options from your file and returns them in a list structure
         /// </summary>
-        static List<Dictionary<string, string>> ReadOptions()
+        static Object[] ReadOptions()
         {
-            List<Dictionary<string, string>> options = new List<Dictionary<string, string>>();
+            string objects = File.ReadAllText(filePath);
+            int objectCount = Regex.Matches(objects, "}").Count; //This is accurate as long as people follow syntax correctly
+            Object[] options = new Object[objectCount];
+
             string[] lines = File.ReadAllLines(filePath);
 
-            string name = string.Empty;
-
             Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
-            List<string> parameters = new List<string>();
-            List<string> values = new List<string>();
 
-
+            string name = string.Empty;
             string[] keys = new string[2];
             string keyLine = string.Empty;
-
+            int objIndex = 0;
             for (int i = 0; i < lines.Length; ++i)
             {
                 if (lines[i].Contains("{"))
@@ -94,12 +100,19 @@ namespace JDF
 
                 if (lines[i].Equals("}"))
                 {
-
+                    Object obj;
+                    obj.name = name;
+                    obj.parameters = keyValuePairs;
+                    options[objIndex] = obj;
+                    ++objIndex;
                 }
             }
             return options;
         }
 
+        /// <summary>
+        /// Let's you write new data into the JDF file
+        /// </summary>
         static void WriteNewData(string data)
         {
             
