@@ -1,9 +1,12 @@
+
 coloring{
 >fcolor=orange
 >bcolor=grey
 }
-
 default{
 >fcolora=orange
 >bcolora=grey
+}
+colors{
+>color=black
 }
