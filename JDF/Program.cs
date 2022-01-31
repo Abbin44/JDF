@@ -22,7 +22,8 @@ namespace JDF
 
         //    Dictionary<string, string> options = new Dictionary<string, string>();
         //    options.Add("color", "black");
-        //    AddOption("colors", options);
+        //    //AddOption("colors", options);
+        //    UpdateParameter("colors", "color", "red");
         //    WriteNewData();
         //}
 
@@ -60,6 +61,33 @@ namespace JDF
             obj.name = name;
             obj.parameters = parameters;
             newObjects.Add(obj);
+        }
+
+        /// <summary>
+        /// Updates a parameter in a given object
+        /// </summary>
+        /// <param name="name">
+        /// The name of the object to update
+        /// </param>
+        /// <param name="paramName">
+        /// The parameter you want to change
+        /// </param>
+        /// <param name="newValue">
+        /// The new value you want to assign the parameter
+        /// </param>
+        public static void UpdateParameter(string name, string paramName, string newValue)
+        {
+            for (int i = 0; i < currentFile.Length; ++i)
+            {
+                if(currentFile[i].name == name)
+                    currentFile[i].parameters[paramName] = newValue;
+            }
+
+            for (int i = 0; i < newObjects.Count; ++i)
+            {
+                if (newObjects[i].name == name)
+                    newObjects[i].parameters[paramName] = newValue;
+            }
         }
 
         /// <summary>
