@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JDF
 {
-    internal struct Object
+    public struct Object
     {
         public string name;
         public Dictionary<string, string> parameters;
